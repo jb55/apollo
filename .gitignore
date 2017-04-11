@@ -1,4 +1,10 @@
-.*
+
+.classpath
+.gradle
+.project
+.settings
+
+build/
 
 !.gitignore
 !.rubocop.yml
