@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -21,6 +22,7 @@ import org.apollo.game.model.World;
 import org.apollo.game.plugin.PluginContext;
 import org.apollo.game.plugin.PluginManager;
 import org.apollo.game.release.r377.Release377;
+import org.apollo.game.release.r317.Release317;
 import org.apollo.game.session.ApolloHandler;
 import org.apollo.net.HttpChannelInitializer;
 import org.apollo.net.JagGrabChannelInitializer;
@@ -50,7 +52,7 @@ public final class Server {
 
 		try {
 			Server server = new Server();
-			server.init(args.length == 1 ? args[0] : Release377.class.getName());
+			server.init(Release317.class.getName());
 
 			SocketAddress service = new InetSocketAddress(NetworkConstants.SERVICE_PORT);
 			SocketAddress http = new InetSocketAddress(NetworkConstants.HTTP_PORT);
@@ -136,7 +138,8 @@ public final class Server {
 
 		World world = new World();
 		ServiceManager services = new ServiceManager(world);
-		IndexedFileSystem fs = new IndexedFileSystem(Paths.get("data/fs", Integer.toString(version)), true);
+		Path fspath = Paths.get("data/fs", Integer.toString(version));
+		IndexedFileSystem fs = new IndexedFileSystem(fspath, true);
 		ServerContext context = new ServerContext(release, services, fs);
 		ApolloHandler handler = new ApolloHandler(context);
 
